@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map of Kenya and Rwanda</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #2c3e50;
+        }
+        #map {
+            height: 90vh;
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        #info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Explore Kenya and Rwanda</h1>
+    <div id="map"></div>
+    <div id="info">Click on the map to get coordinates!</div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([1.5, 37], 6);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Kenya marker
+        var kenya = L.marker([1.2921, 36.8219]).addTo(map);
+        kenya.bindPopup("<b>Nairobi, Kenya</b>").openPopup();
+
+        // Rwanda marker
+        var rwanda = L.marker([-1.9579, 30.1127]).addTo(map);
+        rwanda.bindPopup("<b>Kigali, Rwanda</b>");
+
+        // Highlight Kenya and Rwanda boundaries
+        var kenyaBounds = L.rectangle([[4.5, 33.5], [-5.0, 42.0]], {color: "green", weight: 2, fillOpacity: 0.1}).addTo(map);
+        var rwandaBounds = L.rectangle([[-1.0, 28.8], [-2.9, 30.9]], {color: "blue", weight: 2, fillOpacity: 0.1}).addTo(map);
+
+        // Click event to get coordinates
+        map.on('click', function(e) {
+            var coord = e.latlng;
+            var lat = coord.lat.toFixed(4);
+            var lng = coord.lng.toFixed(4);
+            document.getElementById('info').innerHTML = `You clicked at Latitude: ${lat}, Longitude: ${lng}`;
+        });
+    </script>
+</body>
+</html>
